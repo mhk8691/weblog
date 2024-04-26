@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block head %} 
+{% load static %}
+<link rel="stylesheet" href="{% static 'user/login.css' %}" />
+<title>login</title>
+
+<style>
+  body {
+    height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center ;
+  }
+</style>
+{% endblock head %} {% block body %}
+
+<div class="container mt-4 d-flex justify-content-center">
+  <div class="row px-5">
+    <form action="" method="post">
+      {% csrf_token %} {{form.as_p}}
+      <div class="">
+        <button class="btn btn-primary w-100 mt-4 py-2">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+  <div class="wave"></div>
+</div>
+
+{% endblock body %}
