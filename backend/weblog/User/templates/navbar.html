@@ -1,22 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Horizontal menu</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'user/navbar.css' %}" />
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li><a class="a1" href="">خانه</a></li>
-        <li><a href="">دوره</a></li>
-        <li><a href="">مقالات</a></li>
-        <li><a href="">درباره ما</a></li>
-        <li><a href="">بلاگ</a></li>
-        <div class="start-home animation"></div>
-      </ul>
-    </nav>
-  </body>
-</html>
+{% extends "base.html" %} {% block head %}
+<title>CodePen - icon nav</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'user/navbar.css' %}" />
+
+{% endblock head %} {% block body %}
+
+<nav class="menu" id="nav">
+  <span class="nav-item active">
+    <span class="icon">
+      <i data-feather="home"></i>
+    </span>
+    <a href="#">Home</a>
+  </span>
+  <span class="nav-item">
+    <span class="icon">
+      <i data-feather="search"></i>
+    </span>
+    <a href="#">Search</a>
+  </span>
+  <span class="nav-item">
+    <span class="icon">
+      <i data-feather="bell"></i>
+    </span>
+    <a href="#">Notifications</a>
+  </span>
+  <span class="nav-item">
+    <span class="icon">
+      <i data-feather="star"></i>
+    </span>
+    <a href="#">Favorites</a>
+  </span>
+  <span class="nav-item">
+    <span class="icon">
+      <i data-feather="user"></i>
+    </span>
+    <a href="{% url 'profile'  %}">Your Profile</a>
+  </span>
+</nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script>
+  feather.replace();
+</script>
+{% endblock body %}

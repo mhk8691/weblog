@@ -1,7 +1,9 @@
 {% extends "base.html" %} {% block head %}
 <title>Home</title>
-{% endblock head %} {% block body %} {% include "navbar.html" %} {% if username
-!= None %}
+{% endblock head %} {% block body %} 
+    {% include "navbar.html" %} 
+
+{% if username != None %}
 <p>{{username}}</p>
 <a href="{% url 'logout'  %}" class="btn btn-danger">logout</a>
 {% else %}

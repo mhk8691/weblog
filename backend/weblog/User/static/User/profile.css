@@ -1,0 +1,107 @@
+ul,
+li {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+  color: blue;
+  margin-top: 10px;
+}
+ul i {
+  font-size: 26px;
+}
+body,
+html,
+.page {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  transition: all 0.5s cubic-bezier(0.5, 0.2, 0.2, 1.1);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+.page {
+  position: absolute;
+}
+#p1 {
+  left: 0;
+}
+#p2,
+#p3,
+#p4 {
+  left: 200%;
+}
+#p1 {
+  background-color: darkcyan;
+}
+#p2 {
+  background-color: blueviolet;
+}
+#p3 {
+  background-color: darkmagenta;
+}
+#p4 {
+  background-color: darkblue;
+}
+#t2:target #p2,
+#t3:target #p3,
+#t4:target #p4 {
+  transform: translateX(-195%);
+}
+#t2:target #p1,
+#t3:target #p1,
+#t4:target #p1 {
+  background-color: black;
+}
+ul .icon:hover {
+  opacity: 0.5;
+}
+ul .icon {
+  transition: 0.3s ease;
+}
+.icon {
+  display: block;
+  color: white;
+  margin-bottom: 30px;
+}
+#t2:target ul .icon,
+#t3:target ul .icon,
+#t4:target ul .icon {
+  transform: scale(0.8);
+}
+#p2 section,
+#p3 section,
+#p4 section {
+  transform: translateX(360%);
+  transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1.25);
+}
+
+#t2:target #p2 section,
+#t3:target #p3 section,
+#t4:target #p4 section {
+  transition-delay: 0.5s;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+}
+ul {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  margin: auto;
+  padding: 0 20px;
+}
+.page {
+  
+  font-size: 22px;
+  color: white;
+}
+.page i {
+  font-size: 50px;
+  margin-bottom: 10px;
+  color: white;
+}

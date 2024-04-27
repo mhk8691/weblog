@@ -1,0 +1,124 @@
+{% extends "base.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+<title>Profile</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'user/profile.css' %}" />
+{% endblock head %} {% block body %}
+
+<div class="ct" id="t1">
+  <div class="ct" id="t2">
+    <div class="ct" id="t3">
+      <div class="ct" id="t4">
+        <ul>
+          <a href=""><i class="icon fa fa-bolt"></i></a>
+          <a href="#t2"><i class="icon fa fa-plus-circle"></i></a>
+          <a href="#t3"><i class="icon fa fa-rocket"></i></a>
+          <a href="#t4"><i class="icon fa fa-car"></i></a>
+        </ul>
+        <div
+          class="page d-flex justify-content-center align-items-center"
+          id="p1"
+        >
+          <section class="sec">
+            <div
+              class="shadow-lg rounded-5 d-flex align-items-center justify-content-around"
+              style="height: 350px; width: 800px"
+            >
+              <div class="rounded-circle w-25 px-4">
+                <img
+                  src="{% static 'user/img/Dr_Front.jpg' %}"
+                  alt=""
+                  class="rounded-circle"
+                  style="width: 200px; height: 200px; object-fit: cover"
+                />
+              </div>
+              <div class="">
+                <div class="d-flex">
+                  <h4 class="text-warning">username:</h4>
+                  <p class="ms-1">{{user.username}}</p>
+                </div>
+                <div class="d-flex mt-4">
+                  <h4 class="text-warning">password:</h4>
+                  <p class="ms-1">{{user.password}}</p>
+                </div>
+                <div class="d-flex mt-4">
+                  <h4 class="text-warning">email:</h4>
+                  <p class="ms-1">{{user.email}}</p>
+                </div>
+              </div>
+              <div class="align-self-start">
+                <a href="{% url 'edit' user.id %}" style="color: white">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="35"
+                    height="35"
+                    fill="currentColor"
+                    class="bi bi-pencil-square mt-3"
+                    viewBox="0 0 16 16"
+                    style="cursor: pointer"
+                  >
+                    <path
+                      d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="{% url 'logout'  %}"
+                  style="color: red; margin-left: 20px; margin-right: -25px"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="35"
+                    height="35"
+                    fill="currentColor"
+                    class="bi bi-box-arrow-right mt-3"
+                    viewBox="0 0 16 16"
+                    style="cursor: pointer"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="page" id="p2">
+          <section>
+            <i class="icon fa fa-plus-circle"></i>
+            <h2>Lorem, ipsum.</h2>
+            <span>Lorem ipsum dolor sit amet consectetur.</span>
+          </section>
+        </div>
+        <div class="page" id="p3">
+          <section>
+            <i class="icon fa fa-rocket"></i>
+            <h2>Lorem, ipsum.</h2>
+            <span>Lorem ipsum dolor sit amet consectetur.</span>
+          </section>
+        </div>
+        <div class="page" id="p4">
+          <section>
+            <i class="icon fa fa-car"></i>
+            <h2>Lorem, ipsum.</h2>
+            <span>Lorem ipsum dolor sit amet consectetur.</span>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body %}

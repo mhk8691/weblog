@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 
 # from django.contrib.auth.models import User
-from .forms import UserRegisterForm, UserSigninForm
+from .forms import UserRegisterForm, UserSigninForm, UserEditForm
 from django.contrib import messages
 
-from django.contrib.auth import authenticate, login, logout
 from .models import User
 
 
@@ -36,9 +35,9 @@ def signup(request):
 
 
 def home(request):
-    username = request.COOKIES.get("user", None)
-    print(username)
-    return render(request, "home.html", {"username": username})
+    id = request.COOKIES.get("user", None)
+    print(id)
+    return render(request, "home.html", {"id": id})
 
 
 def signin(request):
@@ -49,10 +48,10 @@ def signin(request):
             user = User.objects.filter(
                 username=cd["username"], password=cd["password"]
             ).first()
+
             if user is not None:
-                messages.success(request, "Your login was successful", "success")
                 response = HttpResponseRedirect("/")
-                response.set_cookie("user", cd["username"])
+                response.set_cookie("user", user.id)
                 print(response)
                 return response
             else:
@@ -69,3 +68,27 @@ def user_logout(request):
     response = HttpResponseRedirect("/")
     response.delete_cookie("user")
     return response
+
+
+def profile(request):
+    id = request.COOKIES.get("user", None)
+    if id != None:
+        user = User.objects.filter(id=id).first()
+        return render(request, "profile.html", {"user": user})
+    else:
+        return redirect("signin")
+
+
+def edit(request, user_id):
+    update = User.objects.get(id=user_id)
+    if request.method == "POST":
+        form = UserEditForm(request.POST, instance=update)
+        if form.is_valid():
+
+            form.save()
+            return redirect("profile")
+
+    else:
+        form = UserEditForm(instance=update)
+
+    return render(request, "edit.html", {"form": form})
