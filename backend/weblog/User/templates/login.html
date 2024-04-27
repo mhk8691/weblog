@@ -15,16 +15,19 @@
 <div class="container mt-4 d-flex justify-content-center">
   <div class="row px-5">
     <form action="" method="post" class="d-flex align-items-center flex-column">
+      <h4 class="mb-4 align-self-start ps-1">Login</h4>
       {% csrf_token %} {{form.as_p}}
       <div class="w-100">
-        <button class="btn btn-primary w-100 mt-4 py-2">Login</button>
+        <button class="btn btn-primary w-100 mt-3 py-2">Login</button>
+      </div>
+      <div class="mt-4">
+        <span
+          >Don't have an account?<a href="{% url 'signup'  %}" class="mt-4 py-2"
+            >Signup</a
+          ></span
+        >
       </div>
     </form>
-    <div class="">
-      <a href="{% url 'signup'  %}" class="btn btn-success w-100 mt-4 py-2"
-        >signup</a
-      >
-    </div>
   </div>
 </div>
 
