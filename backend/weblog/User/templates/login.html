@@ -14,12 +14,17 @@
 
 <div class="container mt-4 d-flex justify-content-center">
   <div class="row px-5">
-    <form action="" method="post">
+    <form action="" method="post" class="d-flex align-items-center flex-column">
       {% csrf_token %} {{form.as_p}}
-      <div class="">
+      <div class="w-100">
         <button class="btn btn-primary w-100 mt-4 py-2">Login</button>
       </div>
     </form>
+    <div class="">
+      <a href="{% url 'signup'  %}" class="btn btn-success w-100 mt-4 py-2"
+        >signup</a
+      >
+    </div>
   </div>
 </div>
 

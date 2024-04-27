@@ -1,11 +1,9 @@
 {% extends "base.html" %} {% block head %}
 <title>Home</title>
-{% endblock head %} {% block body %} {% include "navbar.html" %} 
-{% if request.user.is_authenticated %}
+{% endblock head %} {% block body %} {% include "navbar.html" %} {% if username
+!= None %}
+<p>{{username}}</p>
 <a href="{% url 'logout'  %}" class="btn btn-danger">logout</a>
-<h2>hello</h2>
-<p>{{request.user.username}}</p>
-<p>{{request.user.email}}</p>
 {% else %}
 <a href="{% url 'signup'  %}" class="btn btn-success">signup</a>
 <a href="{% url 'signin' %}" class="btn btn-primary">signin</a>

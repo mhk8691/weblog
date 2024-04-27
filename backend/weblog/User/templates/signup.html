@@ -4,11 +4,12 @@
 <style>
   body {
     display: flex !important;
-    align-items: center !important;
     height: 95vh !important;
     margin: 0 !important;
     overflow: hidden !important;
     background: #000 !important;
+    flex-direction: column !important;
+    justify-content: center;
   }
 </style>
 {% load static %}
@@ -17,7 +18,7 @@
 
 <div class="container mt-4 d-flex justify-content-center z-3">
   <div class="row px-5">
-    <form action="" method="post" >
+    <form action="" method="post">
       {% csrf_token %} {{form.as_p}}
 
       <div class="">
