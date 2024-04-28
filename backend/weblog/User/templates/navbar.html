@@ -20,22 +20,26 @@
   </span>
   <span class="nav-item">
     <span class="icon">
-      <i data-feather="bell"></i>
-    </span>
-    <a href="#">Notifications</a>
-  </span>
-  <span class="nav-item">
-    <span class="icon">
-      <i data-feather="star"></i>
-    </span>
-    <a href="#">Favorites</a>
-  </span>
-  <span class="nav-item">
-    <span class="icon">
       <i data-feather="user"></i>
     </span>
     <a href="{% url 'profile'  %}">Your Profile</a>
   </span>
+  {% if id != None %}
+  
+  <span class='nav-item'></span>
+  {% endif %}
+  {% if id == None %}
+  
+  <span class="nav-item">
+    <span class="icon"> </span>
+    <a href="{% url 'signup'  %}">SignUp</a>
+  </span>
+  <span class="nav-item">
+    <span class="icon"> </span>
+    <a href="{% url 'signin'  %}">Login</a>
+  </span>
+  {% endif %}
+
 </nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
 <script>

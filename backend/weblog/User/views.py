@@ -13,7 +13,7 @@ def signup(request):
         form = UserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
             cd = form.cleaned_data
-            
+
             username_list = User.objects.filter(username=cd["username"]).first()
             if not username_list:
 
@@ -22,7 +22,7 @@ def signup(request):
                     email=cd["email"],
                     password=cd["password"],
                     type="0",
-                    image = cd['image']
+                    image=cd["image"],
                 )
                 messages.success(request, "Your registration was successful", "success")
                 return redirect("signin")
@@ -38,7 +38,7 @@ def signup(request):
 
 def home(request):
     id = request.COOKIES.get("user", None)
-    print(id)
+
     return render(request, "home.html", {"id": id})
 
 
@@ -82,15 +82,19 @@ def profile(request):
 
 
 def edit(request, user_id):
-    update = User.objects.get(id=user_id)
-    if request.method == "POST":
-        form = UserEditForm(request.POST, request.FILES, instance=update)
-        if form.is_valid():
+    id = request.COOKIES.get("user", None)
+    if id != None:
+        update = User.objects.get(id=user_id)
+        if request.method == "POST":
+            form = UserEditForm(request.POST, request.FILES, instance=update)
+            if form.is_valid():
 
-            form.save()
-            return redirect("profile")
+                form.save()
+                return redirect("profile")
 
+        else:
+            form = UserEditForm(instance=update)
+
+        return render(request, "edit.html", {"form": form})
     else:
-        form = UserEditForm(instance=update)
-
-    return render(request, "edit.html", {"form": form})
+        return redirect("signin")

@@ -1,20 +1,37 @@
-{% extends "base.html" %}
-{% block head %}
+{% extends "base.html" %} {% block head %}
 <title>edit profile</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'user/edit.css' %}" />
 <style>
-    
+  a {
+    display: none;
+  }
+  form p:last-of-type :not(input[type="file"]) {
+    display: none;
+  }
+  body {
+    height: 95vh;
+    display: flex;
+    align-items: center;
+  }
 </style>
-{% endblock head %}
+{% endblock head %} {% block body %}
+<div class="center"></div>
+<div class="container mt-4 d-flex justify-content-center">
+  <div class="row px-5 z-3">
+    <form
+      action=""
+      method="post"
+      class="d-flex align-items-center flex-column"
+      enctype="multipart/form-data"
+    >
+      <h4 class="mb-4 align-self-start ps-1">Edit</h4>
+      {% csrf_token %} {{form.as_p}}
+      <div class="w-100">
+        <button class="btn btn-primary w-100 mt-2 py-2">Edit</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-{% block body %}
-
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-
-{{form.as_p}}
-
-<!-- <img src="../../{{form.image.value.url}}" alt=""> -->
-<button class="btn btn-success" type="submit">done</button>
-</form>
 {% endblock body %}
-
