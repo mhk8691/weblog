@@ -6,3 +6,4 @@ class User(models.Model):
     email = models.EmailField()
     password = models.CharField(max_length=20)
     type = models.CharField(max_length=20)
+    image = models.ImageField(upload_to="images/User/")

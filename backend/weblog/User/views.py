@@ -10,9 +10,10 @@ from .models import User
 
 def signup(request):
     if request.method == "POST":
-        form = UserRegisterForm(request.POST)
+        form = UserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
             cd = form.cleaned_data
+            
             username_list = User.objects.filter(username=cd["username"]).first()
             if not username_list:
 
@@ -21,6 +22,7 @@ def signup(request):
                     email=cd["email"],
                     password=cd["password"],
                     type="0",
+                    image = cd['image']
                 )
                 messages.success(request, "Your registration was successful", "success")
                 return redirect("home")
@@ -82,7 +84,7 @@ def profile(request):
 def edit(request, user_id):
     update = User.objects.get(id=user_id)
     if request.method == "POST":
-        form = UserEditForm(request.POST, instance=update)
+        form = UserEditForm(request.POST, request.FILES, instance=update)
         if form.is_valid():
 
             form.save()
