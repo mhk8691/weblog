@@ -8,6 +8,9 @@ class UserRegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("username", "password", "email", "image")
+        widgets = {
+            'password': forms.PasswordInput()
+        }
 
 
 class UserSigninForm(forms.Form):

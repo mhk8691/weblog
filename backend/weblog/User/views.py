@@ -25,7 +25,7 @@ def signup(request):
                     image = cd['image']
                 )
                 messages.success(request, "Your registration was successful", "success")
-                return redirect("home")
+                return redirect("signin")
             else:
                 messages.error(
                     request, "The username was chosen by someone else", "danger"
