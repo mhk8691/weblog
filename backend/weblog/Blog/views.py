@@ -41,6 +41,23 @@ def ShowPost(request):
     else:
         return redirect("signin")
 
-def publish(request,post_id):
-    Post.objects.filter(id = post_id).update(is_draft = False)
-    return redirect("profile")
+
+def publish(request, post_id):
+    id = request.COOKIES.get("user", None)
+    if id != None:
+        Post.objects.filter(id=post_id).update(is_draft=False)
+        return redirect("profile")
+    else :
+        return redirect("signin")
+
+def detail(request, post_id):
+    post = Post.objects.get(id = post_id)
+    return render(request, "detail.html",{'post':post})
+
+def delete_post(request,post_id):
+    id = request.COOKIES.get("user", None)
+    if id != None:
+        Post.objects.get(id=post_id).delete()
+        return redirect('profile')
+    else:
+        return redirect('signin')

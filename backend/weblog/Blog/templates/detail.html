@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block head %}
+
+{% endblock head %}
+
+{% block body %}
+<img src="../../media/{{post.image}}" alt="" style="width: 200px;height: 200px;object-fit: cover;">
+<h1>{{post.title}}</h1>
+<p>{{post.content}}</p>
+{% endblock body %}

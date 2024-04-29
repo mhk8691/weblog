@@ -1,20 +1,42 @@
 {% extends "base.html" %} {% block head %}
 <title>Home</title>
+<style></style>
 {% endblock head %} {% block body %} {% include "navbar.html" %}
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body text-center">
         <form action="" method="get">
-            <input type="search" name="search" id="" class="form-control border border-2 border-black">
-            <button type="submit"  class="btn btn-primary mt-3 w-50 " data-bs-dismiss="modal">Search</button>
+          <input
+            type="search"
+            name="search"
+            id=""
+            class="form-control border border-2 border-black"
+          />
+          <button
+            type="submit"
+            class="btn btn-primary mt-3 w-50"
+            data-bs-dismiss="modal"
+          >
+            Search
+          </button>
         </form>
       </div>
-
     </div>
   </div>
 </div>
@@ -22,18 +44,21 @@
   <div class="row g-3">
     {% for i in Posts %}
     <div class="col-6">
-      <div class="border border-3 border-primary px-3 py-3 d-flex rounded-2">
-        <img
-          src="../../media/{{i.image}}"
-          class="w-50 d-block rounded-2"
-          alt=""
-        />
-        <div class="">
-          <h4 class="ms-3 mt-2" style="height: 194.38px; object-fit: cover">
-            {{i.title}}
-          </h4>
+      <a href="{% url 'detail' i.id %}" class="text-black">
+        <div class="border border-3 border-primary px-3 py-3 d-flex rounded-2">
+          <img
+            src="../../media/{{i.image}}"
+            class="w-50 d-block rounded-2"
+            alt=""
+            style="height: 250px;"
+          />
+          <div class="">
+            <h4 class="ms-3 mt-2" style="height: 194.38px; object-fit: cover">
+              {{i.title}}
+            </h4>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
     {% endfor %}
   </div>

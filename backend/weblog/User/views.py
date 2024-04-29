@@ -35,7 +35,9 @@ def signup(request):
 
     return render(request, "signup.html", {"form": form})
 
+
 from django.http import HttpRequest
+
 
 def home(request):
     id = request.COOKIES.get("user", None)
@@ -100,3 +102,4 @@ def edit(request, user_id):
         return render(request, "edit.html", {"form": form})
     else:
         return redirect("signin")
+

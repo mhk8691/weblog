@@ -110,7 +110,7 @@
                     src="../../media/{{i.image}}"
                     alt=""
                     class="w-100 d-block rounded-2"
-                    style="height: 250px; object-fit: cover"
+                    style=" object-fit: cover"
                   />
 
                   <hr />
@@ -130,6 +130,12 @@
                     class="btn btn-success w-100 py-2"
                     >publish</a
                   >
+                  <a
+                    href="{% url 'delete' i.id %}"
+                    class="btn btn-danger w-100 py-2"
+                    >delete</a
+                  >
+
                   {% else %}
                   <div
                     class="d-flex justify-content-between mt-3 align-items-center px-3"
@@ -138,10 +144,14 @@
                     <h5 class="text-success bg-light p-2 rounded-2">
                       published
                     </h5>
-                  </>
+                  </div>
 
                   <hr />
-
+                  <a
+                    href="{% url 'delete' i.id %}"
+                    class="btn btn-danger w-100 py-2"
+                    >delete</a
+                  >
                   {% endif %}
                 </div>
               </div>
