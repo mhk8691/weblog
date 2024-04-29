@@ -1,8 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .forms import CreatePost
 from User.models import User
 from .models import Post
 from django.contrib import messages
+
 
 def Create(request):
     id = request.COOKIES.get("user", None)
@@ -19,21 +20,27 @@ def Create(request):
                     image=cd["image"],
                 )
                 messages.success(request, "success", "success")
-                return redirect('profile')
+                return redirect("profile")
         else:
             form = CreatePost()
 
-        return render(request, "CreatePost.html", {"form": form,'id':id})
+        return render(request, "CreatePost.html", {"form": form, "id": id})
     else:
         return redirect("signin")
 
-def test(request):
+
+def ShowPost(request):
     id = request.COOKIES.get("user", None)
     if id != None:
-        user = User.objects.get(id = id)
+        user = User.objects.get(id=id)
         Posts = Post.objects.all().filter(author=user)
-        print(Posts)
 
-        return render(request, "profile.html", {"Posts": Posts})
+        object_posts = {"Posts": Posts}
+
+        return render(request, "profile.html", object_posts)
     else:
-        return redirect('signin')
+        return redirect("signin")
+
+def publish(request,post_id):
+    Post.objects.filter(id = post_id).update(is_draft = False)
+    return redirect("profile")

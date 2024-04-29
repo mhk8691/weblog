@@ -98,20 +98,55 @@
             </div>
           </section>
         </div>
-        <div class="page" id="p2">
-          <section class="d-flex justify-content-center">
-            {% for i in Posts %}
+        <div class="page overflow-auto" id="p2">
+          <section class="d-flex container">
+            <div class="row justify-content-center">
+              {% for i in Posts %}
+              <div class="col-4 pt-5">
+                <div class="border border-2 rounded-2 px-3 py-3 w-100">
+                  {% if i.image != "" %}
 
-            <div class="border border-2 rounded-2 px-3 py-2 ms-3">
-              <h2>{{i.title}}</h2>
-            <p>{{i.content}}</p>
-            <img
-              src="../../media/{{i.image}}"
-              alt=""
-              style="width: 200px; height: 200px"
-            />
+                  <img
+                    src="../../media/{{i.image}}"
+                    alt=""
+                    class="w-100 d-block rounded-2"
+                    style="height: 250px; object-fit: cover"
+                  />
+
+                  <hr />
+                  {% endif %} {% if i.is_draft == True %}
+                  <div
+                    class="d-flex justify-content-between mt-3 align-items-center px-3"
+                  >
+                    <h4 class="">{{i.title}}</h4>
+
+                    <h5 class="text-danger bg-light p-2 rounded-2">draft</h5>
+                  </div>
+
+                  <hr />
+
+                  <a
+                    href="{% url 'publish' i.id %}"
+                    class="btn btn-success w-100 py-2"
+                    >publish</a
+                  >
+                  {% else %}
+                  <div
+                    class="d-flex justify-content-between mt-3 align-items-center px-3"
+                  >
+                    <h4 class="">{{i.title}}</h4>
+                    <h5 class="text-success bg-light p-2 rounded-2">
+                      published
+                    </h5>
+                  </>
+
+                  <hr />
+
+                  {% endif %}
+                </div>
+              </div>
+              {% endfor %}
             </div>
-            {% endfor %}
           </section>
         </div>
         <div class="page" id="p3">
