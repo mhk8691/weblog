@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect
 # from django.contrib.auth.models import User
 from .forms import UserRegisterForm, UserSigninForm, UserEditForm
 from django.contrib import messages
-
 from .models import User
 
 

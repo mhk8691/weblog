@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "User",
     "Blog",
     "Categories",
+    "rest_framework",
+    "Admin_User",
 ]
 
 MIDDLEWARE = [

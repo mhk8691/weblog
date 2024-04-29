@@ -1,5 +1,7 @@
 from django.db import models
+
 # from Blog.models import Post
+
 
 class User(models.Model):
     username = models.CharField(max_length=100)
@@ -12,6 +14,6 @@ class User(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey('Blog.Post', on_delete=models.CASCADE)
+    post = models.ForeignKey("Blog.Post", on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()

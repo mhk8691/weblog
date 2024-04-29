@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block head %}
+<title>New Post</title>
+<style>
+    input[type='text'],textarea{
+        border-radius: 5px;
+        display: block;
+    }
+    input[type='file']{
+        
+        display: block;
+    }
+    label{
+        padding-bottom: 10px;
+    }
+</style>
+{% endblock head %}
+
+{% block body %}
+{% include "navbar.html" %}
+<form action="" method="post" enctype="multipart/form-data" class='mt-5 px-5'>
+    {% csrf_token %}
+    {{form.as_p}}
+    <button class="btn btn-success w-25">Publish</button>
+</form>
+{% endblock body %}
