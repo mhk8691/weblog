@@ -3,6 +3,7 @@ from .forms import CreatePost
 from User.models import User
 from .models import Post
 from django.contrib import messages
+
 def Create(request):
     id = request.COOKIES.get("user", None)
     if id != None:
@@ -25,3 +26,14 @@ def Create(request):
         return render(request, "CreatePost.html", {"form": form,'id':id})
     else:
         return redirect("signin")
+
+def test(request):
+    id = request.COOKIES.get("user", None)
+    if id != None:
+        user = User.objects.get(id = id)
+        Posts = Post.objects.all().filter(author=user)
+        print(Posts)
+
+        return render(request, "profile.html", {"Posts": Posts})
+    else:
+        return redirect('signin')

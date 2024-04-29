@@ -13,9 +13,11 @@
     <div class="ct" id="t3">
       <div class="ct" id="t4">
         <ul>
-          <a href=""><i class="icon fa fa-bolt"></i></a>
-          <a href="#t2"><i class="icon fa fa-plus-circle"></i></a>
-          <a href="#t3"><i class="icon fa fa-rocket"></i></a>
+          <a href="{% url 'profile'  %}"><i class="icon fa fa-bolt"></i></a>
+          <a href="{% url 'show'  %}#t2"
+            ><i class="icon fa fa-plus-circle"></i
+          ></a>
+          <a href="{% url 'home' %}#t3"><i class="icon fa fa-rocket"></i></a>
           <a href="#t4"><i class="icon fa fa-car"></i></a>
         </ul>
         <div
@@ -97,10 +99,19 @@
           </section>
         </div>
         <div class="page" id="p2">
-          <section>
-            <i class="icon fa fa-plus-circle"></i>
-            <h2>Lorem, ipsum.</h2>
-            <span>Lorem ipsum dolor sit amet consectetur.</span>
+          <section class="d-flex justify-content-center">
+            {% for i in Posts %}
+
+            <div class="border border-2 rounded-2 px-3 py-2 ms-3">
+              <h2>{{i.title}}</h2>
+            <p>{{i.content}}</p>
+            <img
+              src="../../media/{{i.image}}"
+              alt=""
+              style="width: 200px; height: 200px"
+            />
+            </div>
+            {% endfor %}
           </section>
         </div>
         <div class="page" id="p3">
