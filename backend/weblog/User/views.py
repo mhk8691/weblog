@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from .forms import UserRegisterForm, UserSigninForm, UserEditForm
 from django.contrib import messages
 from .models import User
+from Blog.models import Post
 
 
 def signup(request):
@@ -34,11 +35,14 @@ def signup(request):
 
     return render(request, "signup.html", {"form": form})
 
+from django.http import HttpRequest
 
 def home(request):
     id = request.COOKIES.get("user", None)
+    search = request.GET.get("search", "")
+    Posts = Post.objects.filter(is_draft=False).filter(title__icontains=search).all()
 
-    return render(request, "home.html", {"id": id})
+    return render(request, "home.html", {"id": id, "Posts": Posts})
 
 
 def signin(request):
@@ -53,7 +57,6 @@ def signin(request):
             if user is not None:
                 response = HttpResponseRedirect("/")
                 response.set_cookie("user", user.id)
-                print(response)
                 return response
             else:
                 messages.error(
