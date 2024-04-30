@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     "Categories",
     "rest_framework",
     "Admin_User",
-    'corsheaders'
+    "corsheaders",
+    "Admin_Post",
+    "Admin_Categories",
 ]
 
 MIDDLEWARE = [

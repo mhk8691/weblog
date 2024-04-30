@@ -4,21 +4,17 @@ from User.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer
-from django.http import JsonResponse
-from django.http import request
 
 
-def get_all_user(limit):
-    Users = User.objects.all()[: int(limit)]
+def get_all_user():
+    Users = User.objects.all()
     serialize = UserSerializer(Users, many=True)
     return serialize.data
 
 
 @api_view()
 def list_user(request):
-    range = request.GET.get("range")
-    final_range = json.loads(range)
-    response_data = get_all_user(int(final_range[1]) + 1)
+    response_data = get_all_user()
 
     return Response(response_data)
 
@@ -57,6 +53,8 @@ def add_user(request):
 
         user_id = create_user(username, password, email)
         return Response(user_id), 201
+    else:
+        print("hello")
 
 
 def update_user(user_id, username, password, email):
