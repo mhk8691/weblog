@@ -7,3 +7,9 @@ class CreatePost(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title','content','image')
+
+class UpdatePost(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ("title", "content", "image")

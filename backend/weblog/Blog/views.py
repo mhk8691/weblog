@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CreatePost
+from .forms import CreatePost,UpdatePost
 from User.models import User
 from .models import Post
 from django.contrib import messages
@@ -61,3 +61,15 @@ def delete_post(request,post_id):
         return redirect('profile')
     else:
         return redirect('signin')
+
+def update_post(request,post_id):
+    update = Post.objects.get(id=post_id)
+    
+    if request.method == 'POST':
+        form = UpdatePost(request.POST, request.FILES,instance=update)
+        if form.is_valid():
+            form.save()
+            return redirect("profile")
+    else:
+        form = UpdatePost(instance=update)
+        return render(request,'UpdatePost.html',{'form':form})

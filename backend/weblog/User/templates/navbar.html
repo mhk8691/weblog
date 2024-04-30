@@ -14,7 +14,7 @@
   </span>
   <span class="nav-item">
     <span class="icon">
-      <i data-feather="search" ></i>
+      <i data-feather="search"></i>
     </span>
     <a href="#exampleModal" data-bs-toggle="modal">Search</a>
   </span>
@@ -37,11 +37,17 @@
   {% endif %} {% if id == None %}
 
   <span class="nav-item">
-    <span class="icon"> </span>
+    <span class="icon">
+      <i data-feather="user-plus"></i>
+    </span>
+
     <a href="{% url 'signup'  %}">SignUp</a>
   </span>
   <span class="nav-item">
-    <span class="icon"> </span>
+    
+    <span class="icon">
+      <i data-feather="log-in"></i>
+       </span>
     <a href="{% url 'signin'  %}">Login</a>
   </span>
   {% endif %}

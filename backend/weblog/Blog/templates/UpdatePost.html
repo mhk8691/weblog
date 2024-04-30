@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block head %}
+<style>
+  form p:last-of-type :not(input[type="file"]) {
+    display: none;
+  }
+</style>
+{% endblock head %} {% block body %} 
+      
+<form action="" method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button class="btn btn-success" type="submit">edit</button>
+</form>
+{% endblock body %}

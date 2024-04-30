@@ -110,7 +110,7 @@
                     src="../../media/{{i.image}}"
                     alt=""
                     class="w-100 d-block rounded-2"
-                    style=" object-fit: cover"
+                    style="object-fit: cover"
                   />
 
                   <hr />
@@ -135,6 +135,11 @@
                     class="btn btn-danger w-100 py-2"
                     >delete</a
                   >
+                  <a
+                    href="{% url 'update' i.id %}"
+                    class="btn btn-primary w-100 py-2"
+                    >edit</a
+                  >
 
                   {% else %}
                   <div
@@ -151,6 +156,11 @@
                     href="{% url 'delete' i.id %}"
                     class="btn btn-danger w-100 py-2"
                     >delete</a
+                  >
+                  <a
+                    href="{% url 'update' i.id %}"
+                    class="btn btn-primary w-100 py-2"
+                    >edit</a
                   >
                   {% endif %}
                 </div>
