@@ -18,6 +18,7 @@ def Create(request):
                     title=cd["title"],
                     content=cd["content"],
                     image=cd["image"],
+                    categories=cd["categories"],
                 )
                 messages.success(request, "success", "success")
                 return redirect("profile")

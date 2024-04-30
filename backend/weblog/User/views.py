@@ -43,7 +43,7 @@ def home(request):
     id = request.COOKIES.get("user", None)
     search = request.GET.get("search", "")
     Posts = Post.objects.filter(is_draft=False).filter(title__icontains=search).all()
-
+    # user = User.objects.get(id=id)
     return render(request, "home.html", {"id": id, "Posts": Posts})
 
 

@@ -10,4 +10,4 @@ class Post(models.Model):
     content = models.TextField()
     image = models.ImageField(upload_to="images/Blog", blank=True)
     is_draft = models.BooleanField(default=True)
-    categories = models.ManyToManyField(Category)
+    categories = models.ForeignKey("Categories.Category", on_delete=models.CASCADE)
