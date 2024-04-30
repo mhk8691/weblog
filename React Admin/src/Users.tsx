@@ -15,6 +15,7 @@ import {
   EditButton,
   ShowButton,
   DeleteButton,
+  ImageField,
 } from "react-admin";
 import { Stack } from "@mui/material";
 

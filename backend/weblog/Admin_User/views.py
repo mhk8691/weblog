@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from User.models import User
 from rest_framework.decorators import api_view
@@ -6,22 +7,20 @@ from .serializers import UserSerializer
 from django.http import JsonResponse
 from django.http import request
 
-def get_all_user():
-    Users = User.objects.all()
+
+def get_all_user(limit):
+    Users = User.objects.all()[: int(limit)]
     serialize = UserSerializer(Users, many=True)
     return serialize.data
 
 
+@api_view()
 def list_user(request):
-    response_data = get_all_user()
+    range = request.GET.get("range")
+    final_range = json.loads(range)
+    response_data = get_all_user(int(final_range[1]) + 1)
 
-    response = JsonResponse(response_data, safe=False)
-    response["Access-Control-Expose-Headers"] = "Content-Range"
-
-    content_length = len(response.content)
-    response["Content-Range"] = f"bytes */{content_length}"
-
-    return response
+    return Response(response_data)
 
 
 def get_user(user_id):
@@ -35,8 +34,8 @@ def get_user_by_id(request, user_id):
     user = get_user(user_id)
     if user is None:
         return "", 404
-    response = JsonResponse(user, safe=False)
-    return response
+    # response = JsonResponse(user, safe=False)
+    return Response(user)
 
 
 def create_user(username, email, password):
@@ -47,14 +46,30 @@ def create_user(username, email, password):
 
     return user_id
 
+
 @api_view()
 def add_user(request):
-    if request.method == 'POST':
-        name = request.POST["username"]
-        email = request.POST["email"]
-        password = request.POST["password"]
-        request.POST.get("title", "")
+    if request.method == "POST":
 
-        user_id = create_user(name, password, email)
-        # response = JsonResponse(get_user_by_id(user_id), safe=False)
-        return Response(get_user_by_id(user_id)), 201
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        user_id = create_user(username, password, email)
+        return Response(user_id), 201
+
+
+def update_user(user_id, username, password, email):
+    User.objects.filter(id=user_id).update(
+        username=username, password=password, email=email
+    )
+    return get_user(user_id)
+
+
+def update_user_by_id(request, user_id):
+    if request.method == "POST":
+        username = request.JSON.get["username"]
+        password = request.JSON.get["password"]
+        email = request.JSON.get["email"]
+        user = update_user(user_id, username, password, email)
+        return Response(get_user(user_id)), 201

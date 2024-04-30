@@ -102,4 +102,3 @@ def edit(request, user_id):
         return render(request, "edit.html", {"form": form})
     else:
         return redirect("signin")
-
