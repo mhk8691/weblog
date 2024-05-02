@@ -1,22 +1,23 @@
 import json
 from django.shortcuts import render
+from flask_cors import cross_origin
 from User.models import User
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer
+from django.http import HttpResponse, JsonResponse
 
 
-def get_all_user():
-    Users = User.objects.all()
-    serialize = UserSerializer(Users, many=True)
-    return serialize.data
-
-
-@api_view()
+# @cross_origin()
+@api_view(["GET"])
 def list_user(request):
-    response_data = get_all_user()
-
-    return Response(response_data)
+    if request.method == "GET":
+        Users = User.objects.all()
+        serialize = UserSerializer(Users, many=True)
+        response = serialize.data
+        response.headers["Access-Control-Expose-Headers"] = "Content-Range"
+        response.headers["Content-Range"] = len(Users)
+        return Response(response)
 
 
 def get_user(user_id):
@@ -25,49 +26,39 @@ def get_user(user_id):
     return serializer.data
 
 
-@api_view()
-def get_user_by_id(request, user_id):
-    user = get_user(user_id)
-    if user is None:
-        return "", 404
-    # response = JsonResponse(user, safe=False)
-    return Response(user)
-
-
-def create_user(username, email, password):
-
-    user = User.objects.create(username=username, email=email, password=password)
-    user_id = user.id
-    print(user_id)
-
-    return user_id
-
-
-@api_view()
+@api_view(["POST"])
 def add_user(request):
     if request.method == "POST":
+        json_data = json.loads(request.body)
+        username = json_data.get("username")
+        password = json_data.get("password")
+        email = json_data.get("email")
+        user = User.objects.create(username=username, email=email, password=password)
+        serializer = UserSerializer(get_user(user_id=user.id))
+        return Response(serializer.data)
 
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
 
-        user_id = create_user(username, password, email)
-        return Response(user_id), 201
+@api_view(["DELETE", "GET", "PUT"])
+def crud(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if request.method == "DELETE":
+        if request.method == "DELETE":
+            try:
+                user.delete()
+                return Response({"id": user_id})
+            except User.DoesNotExist:
+                return JsonResponse({"error": "User not found"})
+    elif request.method == "PUT":
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(get_user(user_id))
+        else:
+            return Response(serializer.errors)
+            # response = JsonResponse(get_user(user_id), safe=False)
+    elif request.method == "GET":
+        user = get_user(user_id)
+        return Response(user)
     else:
-        print("hello")
-
-
-def update_user(user_id, username, password, email):
-    User.objects.filter(id=user_id).update(
-        username=username, password=password, email=email
-    )
-    return get_user(user_id)
-
-
-def update_user_by_id(request, user_id):
-    if request.method == "POST":
-        username = request.JSON.get["username"]
-        password = request.JSON.get["password"]
-        email = request.JSON.get["email"]
-        user = update_user(user_id, username, password, email)
-        return Response(get_user(user_id)), 201
+        return HttpResponse(404)

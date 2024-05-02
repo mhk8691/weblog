@@ -1,11 +1,17 @@
 from rest_framework import serializers
-from Categories.models import Category
+from Blog.models import Post
 
 
-class PostSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = (
+            "id",
+            "author",
+            "title",
+            "content",
+            "is_draft",
+            "categories",
+        )
 
-    title = serializers.CharField(max_length=200)
-    content = serializers.CharField(max_length=200)
-    image = serializers.ImageField()
-    is_draft = serializers.BooleanField(default=True)
+    author = serializers.CharField(source="author.username", read_only=True)

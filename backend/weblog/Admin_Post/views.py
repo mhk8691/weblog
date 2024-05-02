@@ -1,21 +1,25 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from Blog.models import Post
 from .serializers import PostSerializer
+import json
+
 # Create your views here.
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
-def get_all_post():
-    Posts = Post.objects.all()
-    serialize = PostSerializer(Posts, many=True)
-    return serialize.data
+from User.models import User
+from Categories.models import Category
 
 
-@api_view()
+@api_view(["GET"])
 def list_post(request):
-    response_data = get_all_post()
-
-    return Response(response_data)
+    if request.method == "GET":
+        Post = Post.objects.all()
+        serialize = PostSerializer(Post, many=True)
+        response = serialize.data
+        response.headers["Access-Control-Expose-Headers"] = "Content-Range"
+        response.headers["Content-Range"] = len(Post)
+        return Response(response)
 
 
 def get_post(post_id):
@@ -24,10 +28,48 @@ def get_post(post_id):
     return serializer.data
 
 
-@api_view()
-def get_post_by_id(request, post_id):
-    post = get_post(post_id)
-    if post is None:
-        return "", 404
-    # response = JsonResponse(user, safe=False)
-    return Response(post)
+@api_view(["POST"])
+def add_post(request):
+    if request.method == "POST":
+        json_data = json.loads(request.body)
+        author = json_data.get("author")
+        title = json_data.get("title")
+        content = json_data.get("content")
+        is_draft = json_data.get("is_draft")
+        categories = json_data.get("categories")
+        user = User.objects.get(id=author)
+        category = Category.objects.get(id=categories)
+        post = Post.objects.create(
+            author=user,
+            title=title,
+            content=content,
+            is_draft=is_draft,
+            categories=category,
+        )
+        serializer = PostSerializer(get_post(post_id=post.id))
+        return Response(serializer.data)
+
+
+@api_view(["DELETE", "GET", "PUT"])
+def crud(request, post_id):
+    post = Post.objects.get(pk=post_id)
+
+    if request.method == "GET":
+        post = get_post(post_id=post_id)
+
+        return Response(post)
+    elif request.method == "DELETE":
+        try:
+            post.delete()
+            return Response({"id": post_id})
+        except User.DoesNotExist:
+            return JsonResponse({"error": "User not found"})
+    elif request.method == "PUT":
+        serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(get_post(post_id))
+        else:
+            return Response(serializer.errors)
+            # response = JsonResponse(get_user(user_id), safe=False)

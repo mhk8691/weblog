@@ -15,13 +15,11 @@ import { dataProvider } from "./dataProvider";
 import { authProvider } from "./authProvider";
 import { UsersList } from "./Users";
 import { UserCreate } from "./UserCreate";
-
-
-
+import { PostCreate } from "./PostCreate";
+import { PostsList } from "./Post";
 const MyLayout = (props: JSX.IntrinsicAttributes & LayoutProps) => (
   <Layout {...props} appBar={MyAppBar} />
 );
-
 
 export const App = () => (
   <Admin
@@ -39,6 +37,13 @@ export const App = () => (
       edit={EditGuesser}
       show={ShowGuesser}
       create={UserCreate}
+    />
+    <Resource
+      name="post"
+      list={PostsList}
+      edit={EditGuesser}
+      show={ShowGuesser}
+      create={PostCreate}
     />
   </Admin>
 );

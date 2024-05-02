@@ -59,40 +59,49 @@
           </div>
         </div>
       </a> -->
-      <div class="card mb-3  border-black" style="max-width: 540px;">
-  <div class="row g-0">
-    
-    <div class="col-md-4">
-      <a href="{% url 'detail' i.id %}" class="text-black">
+      <div class="card mb-3 border-black" style="max-width: 540px">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <a href="{% url 'detail' i.id %}" class="text-black">
+              <img
+                src="../../media/{{i.image}}"
+                class="img-fluid rounded-start"
+                alt="img"
+              />
+            </a>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <a href="{% url 'detail' i.id %}" class="text-black">
+                <h5 class="card-title">{{i.title}}</h5>
+                <p class="card-text">
+                  This is a wider card with supporting text below as a natural
+                  lead-in to additional content. This content is a little bit
+                  longer.
+                </p>
+              </a>
 
-        <img src="../../media/{{i.image}}" class="img-fluid rounded-start" alt="img">
-      </a>
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-       <a href="{% url 'detail' i.id %}" class="text-black">
-         <h5 class="card-title">{{i.title}}</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-       </a>
-        <p class="card-text"><small class="text-body-secondary">
-          <span class="badge text-bg-primary">{{i.categories.name}}</span>
-        </small></p>
-        <p class="card-text"><small class="text-body-secondary">
-          <a href="">
-            <h6>
-              {{i.author.username}}
-
-            </h6>
-          </a>
-        </small></p>
+              <p class="card-text">
+                <small class="text-body-secondary">
+                  <a href="">
+                    <h6>{{i.author.username}}</h6>
+                  </a>
+                </small>
+              </p>
+              <p class="card-text">
+                <small class="text-body-secondary">
+                  <span class="badge text-bg-primary fw-normal"
+                    >{{i.categories.name}}</span
+                  >
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
     </div>
     {% endfor %}
   </div>
 </div>
-
 
 {% endblock body %}
