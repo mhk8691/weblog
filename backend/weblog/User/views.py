@@ -38,12 +38,21 @@ def signup(request):
 
 from django.http import HttpRequest
 
+from django.db.models import Q
+
 
 def home(request):
     id = request.COOKIES.get("user", None)
     search = request.GET.get("search", "")
-    Posts = Post.objects.filter(is_draft=False).filter(title__icontains=search).all()
-    # user = User.objects.get(id=id)
+    
+    Posts = Post.objects.filter(
+        Q(is_draft=False)
+        & (
+            Q(title__icontains=search)
+            | Q(content__icontains=search)
+            | Q(author__username__icontains=search)
+        )
+    ).all()
     return render(request, "home.html", {"id": id, "Posts": Posts})
 
 
