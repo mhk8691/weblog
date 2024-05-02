@@ -62,7 +62,7 @@ def crud(request, post_id):
         try:
             post.delete()
             return Response({"id": post_id})
-        except User.DoesNotExist:
+        except Post.DoesNotExist:
             return JsonResponse({"error": "User not found"})
     elif request.method == "PUT":
         serializer = PostSerializer(post, data=request.data)
