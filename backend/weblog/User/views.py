@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 
 # from django.contrib.auth.models import User
-from .forms import UserRegisterForm, UserSigninForm, UserEditForm
+from .forms import UserRegisterForm, UserSigninForm, UserEditForm, AddCommentForm
 from django.contrib import messages
 from .models import User
 from Blog.models import Post
@@ -44,7 +44,7 @@ from django.db.models import Q
 def home(request):
     id = request.COOKIES.get("user", None)
     search = request.GET.get("search", "")
-    
+
     Posts = Post.objects.filter(
         Q(is_draft=False)
         & (
@@ -111,3 +111,6 @@ def edit(request, user_id):
         return render(request, "edit.html", {"form": form})
     else:
         return redirect("signin")
+
+
+

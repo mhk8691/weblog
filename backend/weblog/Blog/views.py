@@ -3,6 +3,8 @@ from .forms import CreatePost, UpdatePost
 from User.models import User
 from .models import Post
 from django.contrib import messages
+from User.forms import AddCommentForm
+from User.forms import Comment
 
 
 def Create(request):
@@ -54,7 +56,29 @@ def publish(request, post_id):
 
 def detail(request, post_id):
     post = Post.objects.get(id=post_id)
-    return render(request, "detail.html", {"post": post})
+    id = request.COOKIES.get("user", None)
+
+    if request.method == "POST":
+        form = AddCommentForm(request.POST)
+        if form.is_valid():
+            post_object = Post.objects.get(pk=post_id)
+            user_object = User.objects.get(pk=id)
+
+            Comment.objects.create(
+                post=post_object,
+                author=user_object,
+                content=form.cleaned_data["content"],
+            )
+            return redirect("detail", post_id=post_id)
+    else:
+        comment = Comment.objects.all()
+        form = AddCommentForm()
+
+    return render(
+        request,
+        "detail.html",
+        {"post": post, "form": form, "id": id, "comment": comment},
+    )
 
 
 def delete_post(request, post_id):
