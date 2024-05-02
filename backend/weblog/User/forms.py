@@ -27,3 +27,9 @@ class AddCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ("content",)
+
+class UpdateCommentForm(forms.ModelForm):
+    # content = forms.CharField()
+    class Meta:
+        model = Comment
+        fields = ("content",)

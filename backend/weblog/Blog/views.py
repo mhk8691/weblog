@@ -3,7 +3,7 @@ from .forms import CreatePost, UpdatePost
 from User.models import User
 from .models import Post
 from django.contrib import messages
-from User.forms import AddCommentForm
+from User.forms import AddCommentForm, UpdateCommentForm
 from User.forms import Comment
 
 
@@ -57,7 +57,7 @@ def publish(request, post_id):
 def detail(request, post_id):
     post = Post.objects.get(id=post_id)
     id = request.COOKIES.get("user", None)
-
+    user_id = -1
     if request.method == "POST":
         form = AddCommentForm(request.POST)
         if form.is_valid():
@@ -70,14 +70,22 @@ def detail(request, post_id):
                 content=form.cleaned_data["content"],
             )
             return redirect("detail", post_id=post_id)
+
     else:
         comment = Comment.objects.all()
         form = AddCommentForm()
-
+    if id != None:
+        user_id = int(id)
     return render(
         request,
         "detail.html",
-        {"post": post, "form": form, "id": id, "comment": comment},
+        {
+            "post": post,
+            "form": form,
+            "id": id,
+            "comment": comment,
+            "user_id": user_id,
+        },
     )
 
 
@@ -101,3 +109,24 @@ def update_post(request, post_id):
     else:
         form = UpdatePost(instance=update)
         return render(request, "UpdatePost.html", {"form": form})
+
+
+def delete_comment(request, post_id, comment_id):
+    id = request.COOKIES.get("user", None)
+    if id != None:
+        Comment.objects.get(id=comment_id).delete()
+        return redirect("detail", post_id=post_id)
+    else:
+        return redirect("signin")
+
+def update_comment(request, post_id, comment_id):
+    update = Comment.objects.get(id=comment_id)
+
+    if request.method == "POST":
+        form = UpdateCommentForm(request.POST, request.FILES, instance=update)
+        if form.is_valid():
+            form.save()
+            return redirect("detail", post_id=post_id)
+    else:
+        form = UpdateCommentForm(instance=update)
+        return render(request, "update_comment.html", {"form": form})
