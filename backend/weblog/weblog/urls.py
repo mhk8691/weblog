@@ -12,6 +12,7 @@ urlpatterns = [
     path("", include("Admin_User.urls")),
     path("", include("Admin_Post.urls")),
     path('', include("Admin_Categories.urls")),
+    path('', include("Admin_Comment.urls")),
 ]
 
 if settings.DEBUG:

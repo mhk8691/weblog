@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "Admin_Post",
     "Admin_Categories",
+    "Admin_Comment",
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # آدرس React Admin

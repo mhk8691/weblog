@@ -34,8 +34,8 @@ def add_user(request):
         password = json_data.get("password")
         email = json_data.get("email")
         user = User.objects.create(username=username, email=email, password=password)
-        serializer = UserSerializer(get_user(user_id=user.id))
-        return Response(serializer.data)
+        # serializer = UserSerializer()
+        return Response(get_user(user_id=user.id))
 
 
 @api_view(["DELETE", "GET", "PUT"])

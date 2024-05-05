@@ -45,15 +45,23 @@ def home(request):
     id = request.COOKIES.get("user", None)
     search = request.GET.get("search", "")
 
-    Posts = Post.objects.filter(
-        Q(is_draft=False)
-        & (
-            Q(title__icontains=search)
-            | Q(content__icontains=search)
-            | Q(author__username__icontains=search)
+    Posts = (
+        Post.objects.filter(
+            Q(is_draft=False)
+            & (
+                Q(title__icontains=search)
+                | Q(content__icontains=search)
+                | Q(author__username__icontains=search)
+            )
         )
-    ).all()
-    return render(request, "home.html", {"id": id, "Posts": Posts})
+        .all()
+        .order_by("-image")
+    )
+    return render(
+        request,
+        "home.html",
+        {"id": id, "Posts": Posts},
+    )
 
 
 def signin(request):
@@ -111,6 +119,3 @@ def edit(request, user_id):
         return render(request, "edit.html", {"form": form})
     else:
         return redirect("signin")
-
-
-

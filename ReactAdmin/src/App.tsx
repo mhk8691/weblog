@@ -18,7 +18,10 @@ import { UserCreate } from "./UserCreate";
 import { PostCreate } from "./PostCreate";
 import { PostsList } from "./Post";
 import { CategoryList } from "./Category";
-import {CategoryCreate} from "./CategoryCreate";
+import { CategoryCreate } from "./CategoryCreate";
+import { CommentList } from "./Comment";
+import { CommentCreate } from "./CommentCreate";
+
 const MyLayout = (props: JSX.IntrinsicAttributes & LayoutProps) => (
   <Layout {...props} appBar={MyAppBar} />
 );
@@ -54,6 +57,13 @@ export const App = () => (
       edit={EditGuesser}
       show={ShowGuesser}
       create={CategoryCreate}
+    />
+    <Resource
+      name="comment"
+      list={CommentList}
+      edit={EditGuesser}
+      show={ShowGuesser}
+      create={CommentCreate}
     />
   </Admin>
 );

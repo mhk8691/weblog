@@ -36,7 +36,12 @@ def ShowPost(request):
     id = request.COOKIES.get("user", None)
     if id != None:
         user = User.objects.get(id=id)
-        Posts = Post.objects.all().filter(author=user)
+        Posts = (
+            Post.objects.all()
+            .filter(author=user)
+            .order_by("-image")
+            .order_by("is_draft")
+        )
 
         object_posts = {"Posts": Posts}
 
@@ -118,6 +123,7 @@ def delete_comment(request, post_id, comment_id):
         return redirect("detail", post_id=post_id)
     else:
         return redirect("signin")
+
 
 def update_comment(request, post_id, comment_id):
     update = Comment.objects.get(id=comment_id)

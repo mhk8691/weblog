@@ -1,5 +1,4 @@
 from django.http import JsonResponse
-from django.shortcuts import render
 from Blog.models import Post
 from .serializers import PostSerializer
 import json
@@ -46,8 +45,8 @@ def add_post(request):
             is_draft=is_draft,
             categories=category,
         )
-        serializer = PostSerializer(get_post(post_id=post.id))
-        return Response(serializer.data)
+        # serializer = PostSerializer()
+        return Response(get_post(post_id=post.id))
 
 
 @api_view(["DELETE", "GET", "PUT"])

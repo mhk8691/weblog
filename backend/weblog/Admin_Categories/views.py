@@ -34,8 +34,7 @@ def add_category(request):
         name = json_data.get("name")
 
         category = Category.objects.create(name=name)
-        serializer = CategorySerializer(get_category(category_id=category.id))
-        return Response(serializer.data)
+        return Response(get_category(category_id=category.id))
 
 
 @api_view(["DELETE", "GET", "PUT"])

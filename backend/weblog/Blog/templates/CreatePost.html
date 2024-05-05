@@ -1,26 +1,23 @@
-{% extends "base.html" %}
-{% block head %}
+{% extends "base.html" %} {% block head %}
 <title>New Post</title>
-<style>
-    input[type='text'],textarea{
-        border-radius: 5px;
-        display: block;
-    }
-    input[type='file']{
-        
-        display: block;
-    }
-    label{
-        padding-bottom: 10px;
-    }
-</style>
-{% endblock head %}
+{% load static %}
 
-{% block body %}
-{% include "navbar.html" %}
-<form action="" method="post" enctype="multipart/form-data" class='mt-5 px-5'>
-    {% csrf_token %}
-    {{form.as_p}}
-    <button class="btn btn-success w-25">Publish</button>
-</form>
+<link rel="stylesheet" href="{% static 'User/createpost.css' %}" />
+
+{% endblock head %} {% block body %} {% include "navbar.html" %}
+<div
+  class="container bg-danger bg-gradient text-light p-5 rounded-5 mt-5 mb-5 pb-5"
+>
+  <div class="row">
+    <div class="col">
+      <form action="" method="post" enctype="multipart/form-data" class="">
+        {% csrf_token %} {{form.as_p}}
+        <p>Choosing an image will help the post get more views</p>
+        <div class="text-center">
+          <button class="btn btn-primary w-50 py-2 mt-3">Publish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock body %}

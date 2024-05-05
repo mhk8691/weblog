@@ -7,7 +7,11 @@ from Categories.models import Category
 class CreatePost(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ("title", "content", "image", "categories")
+        fields = (
+            "title",
+            "content",
+            "categories", "image"
+        )
 
 
 class UpdatePost(forms.ModelForm):
@@ -15,4 +19,4 @@ class UpdatePost(forms.ModelForm):
     class Meta:
         model = Post
         # fields = ("title", "content", "image", "categories.name")
-        fields = ("title", "content", "image", "categories")
+        fields = ("title", "content", "categories", "image")
