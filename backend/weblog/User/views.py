@@ -69,10 +69,11 @@ def signin(request):
         form = UserSigninForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
+            
             user = User.objects.filter(
-                username=cd["username"], password=cd["password"]
+                Q(email=cd["username"]) | Q(username=cd["username"]),
+                password=cd["password"],
             ).first()
-
             if user is not None:
                 response = HttpResponseRedirect("/")
                 response.set_cookie("user", user.id)
