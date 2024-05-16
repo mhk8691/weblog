@@ -1,6 +1,15 @@
-{% extends "base.html" %} {% block head %} {% endblock head %} {% block body %}
-<form action="" method="post">
-  {% csrf_token %} {{form.as_p}}
-  <button class="btn btn-primary" type="submit">save</button>
-</form>
-{% endblock body %}
+{% extends 'base.html' %} {% block head %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'Blog/update-comment.css' %}" />
+{% endblock %} {% block body %}
+  <div class="gradiant">
+    <div class="wrapper">
+      <form action="" method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-primary w-75 mt-2" type="submit">save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

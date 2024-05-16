@@ -8,15 +8,19 @@ from .serializers import UserSerializer
 from django.http import HttpResponse, JsonResponse
 
 
-# @cross_origin()
 @api_view(["GET"])
 def list_user(request):
     if request.method == "GET":
         Users = User.objects.all()
         serialize = UserSerializer(Users, many=True)
+        range = request.GET.get("range")
+        sort = request.GET.get("sort")
+        print(range)
+        print(sort)
         response = serialize.data
         response.headers["Access-Control-Expose-Headers"] = "Content-Range"
         response.headers["Content-Range"] = len(Users)
+
         return Response(response)
 
 

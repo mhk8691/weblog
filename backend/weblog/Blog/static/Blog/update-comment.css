@@ -1,0 +1,65 @@
+textarea {
+  display: block;
+  padding: 10px 15px;
+  border-end-end-radius: 25px;
+  border-start-start-radius: 25px;
+  border: 2px solid darkcyan;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+.wrapper {
+  /* border: 3px solid darkcyan; */
+  padding: 60px;
+  background-color: white;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gradiant {
+  background: linear-gradient(120deg, red, blue);
+  z-index: 0;
+  padding: 6px;
+  border-radius: 20px;
+  animation: gradiant 10s infinite ease;
+}
+
+@keyframes gradiant {
+  0% {
+    background: linear-gradient(120deg, red, blue);
+  }
+
+  25% {
+    background: linear-gradient(240deg, red, blue);
+  }
+
+  50% {
+    background: linear-gradient(360deg, red, blue);
+  }
+
+  75% {
+    background: linear-gradient(240deg, red, blue);
+  }
+
+  100% {
+    background: linear-gradient(180deg, red, blue);
+  }
+}
+
+button {
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button:hover {
+  transform: scale(1.2);
+}

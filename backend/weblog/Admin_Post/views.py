@@ -12,13 +12,30 @@ from Categories.models import Category
 
 @api_view(["GET"])
 def list_post(request):
-    if request.method == "GET":
-        Post = Post.objects.all()
-        serialize = PostSerializer(Post, many=True)
-        response = serialize.data
-        response.headers["Access-Control-Expose-Headers"] = "Content-Range"
-        response.headers["Content-Range"] = len(Post)
-        return Response(response)
+    #     Post = Post.objects.all()
+    #     serialize = PostSerializer(Post, many=True)
+    #     response = serialize.data
+    #     response.headers["Access-Control-Expose-Headers"] = "Content-Range"
+    #     response.headers["Content-Range"] = len(Post)
+    #     return Response(response)
+    range = request.GET["range"]
+    sort = request.GET["sort"]
+    final_range = json.loads(range)
+    final_sort = json.loads(sort)
+    if final_sort[1] == "DESC":
+        posts = Post.objects.all().order_by("-{}".format(final_sort[0]))[
+            final_range[0] : final_range[1]
+        ]
+    else:
+        posts = Post.objects.all().order_by(final_sort[0])[
+            final_range[0] : final_range[1]
+        ]
+    serializer = PostSerializer(posts, many=True)
+    response = Response(serializer.data)
+    response["Content-Range"] = f"posts 0-{len(posts)-1}/{len(posts)}"
+    response["Access-Control-Expose-Headers"] = "Content-Range"
+    # print()
+    return response
 
 
 def get_post(post_id):

@@ -23,7 +23,7 @@ def Create(request):
                     categories=cd["categories"],
                 )
                 messages.success(request, "success", "success")
-                return redirect("profile")
+                return redirect("http://127.0.0.1:8000/profile/show/#t2")
         else:
             form = CreatePost()
 
@@ -34,14 +34,10 @@ def Create(request):
 
 def ShowPost(request):
     id = request.COOKIES.get("user", None)
+
     if id != None:
         user = User.objects.get(id=id)
-        Posts = (
-            Post.objects.all()
-            .filter(author=user)
-            .order_by("-image")
-            .order_by("is_draft")
-        )
+        Posts = Post.objects.all().filter(author=user).order_by("-image")
 
         object_posts = {"Posts": Posts}
 
@@ -54,7 +50,7 @@ def publish(request, post_id):
     id = request.COOKIES.get("user", None)
     if id != None:
         Post.objects.filter(id=post_id).update(is_draft=False)
-        return redirect("profile")
+        return redirect("http://127.0.0.1:8000/profile/show/#t2")
     else:
         return redirect("signin")
 
@@ -98,7 +94,7 @@ def delete_post(request, post_id):
     id = request.COOKIES.get("user", None)
     if id != None:
         Post.objects.get(id=post_id).delete()
-        return redirect("profile")
+        return redirect("http://127.0.0.1:8000/profile/show/#t2")
     else:
         return redirect("signin")
 

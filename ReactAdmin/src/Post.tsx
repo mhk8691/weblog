@@ -40,7 +40,7 @@ export const PostsList = () => (
   <List>
     <ListToolbar />
     <Datagrid rowClick="edit">
-      <NumberField source="id" />
+      {/* <NumberField source="id" /> */}
       <NumberField source="author" />
       <TextField source="title" />
       <TextField source="content" />

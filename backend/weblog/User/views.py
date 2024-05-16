@@ -69,7 +69,7 @@ def signin(request):
         form = UserSigninForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            
+
             user = User.objects.filter(
                 Q(email=cd["username"]) | Q(username=cd["username"]),
                 password=cd["password"],
