@@ -8,6 +8,18 @@ from rest_framework.response import Response
 from User.models import User
 from Categories.models import Category
 from User.models import Comment
+from django.db.models import Q
+
+import re
+
+
+def regex(text):
+    if len(text) > 2:
+        search = re.split(r""":""", text)
+        search2 = re.split(r"""^{\"""", search[0])
+        search2 = re.split(r"""\"$""", search2[1])
+        regex_filter = re.split(rf'"{search2[0]}":"(.*?)"', text)
+        return regex_filter[1]
 
 
 @api_view(["GET", "POST"])
@@ -15,13 +27,22 @@ def manage_comment(request):
     if request.method == "GET":
         range = json.loads(request.GET["range"])
         sort = json.loads(request.GET["sort"])
-
+        filter = request.GET["filter"]
+        search = regex(filter)
+        if search == None:
+            search = ""
         if sort[1] == "DESC":
-            comments = Comment.objects.all().order_by("-{}".format(sort[0]))[
-                range[0] : range[1]
-            ]
+            comments = (
+                Comment.objects.all()
+                .filter(Q(pk__icontains=search))
+                .order_by("-{}".format(sort[0]))[range[0] : range[1]]
+            )
         else:
-            comments = Comment.objects.all().order_by(sort[0])[range[0] : range[1]]
+            comments = (
+                Comment.objects.all()
+                .filter(Q(pk__icontains=search))
+                .order_by(sort[0])[range[0] : range[1]]
+            )
         serializer = CommentSerializer(comments, many=True)
         response = Response(serializer.data)
         response["Content-Range"] = f"comments 0-{len(comments)-1}/{len(comments)}"

@@ -19,20 +19,15 @@ import {
 } from "react-admin";
 import { Stack } from "@mui/material";
 
-// const CustomerFilters = [
-//   <SearchInput source="username" alwaysOn placeholder="username" />,
-//   <TextInput
-//     label="email"
-//     source="email"
-//     defaultValue="@gmail.com"
-//     placeholder="email"
-//   />,
-//   <TextInput label="phone" source="phone" placeholder="phone" />,
-// ];
+const CustomerFilters = [
+  <SearchInput source="name" alwaysOn placeholder="name" />,
+];
 const ListToolbar = () => (
   <Stack direction="row" justifyContent="space-between">
-    {/* <FilterForm filters={CustomerFilters} /> */}
-    <div>{/* <FilterButton filters={CustomerFilters} /> */}</div>
+    <FilterForm filters={CustomerFilters} />
+    <div>
+      <FilterButton filters={CustomerFilters} />
+    </div>
   </Stack>
 );
 

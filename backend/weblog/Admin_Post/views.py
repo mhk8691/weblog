@@ -8,6 +8,18 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from User.models import User
 from Categories.models import Category
+from django.db.models import Q
+
+import re
+
+
+def regex(text):
+    if len(text) > 2:
+        search = re.split(r""":""", text)
+        search2 = re.split(r"""^{\"""", search[0])
+        search2 = re.split(r"""\"$""", search2[1])
+        regex_filter = re.split(rf'"{search2[0]}":"(.*?)"', text)
+        return regex_filter[1]
 
 
 @api_view(["GET", "POST"])
@@ -15,16 +27,23 @@ def manage_post(request):
     if request.method == "GET":
         range = request.GET["range"]
         sort = request.GET["sort"]
+        filter = request.GET["filter"]
+        search = regex(filter)
+        if search == None:
+            search = ""
+
         final_range = json.loads(range)
         final_sort = json.loads(sort)
         if final_sort[1] == "DESC":
-            posts = Post.objects.all().order_by("-{}".format(final_sort[0]))[
+            posts = Post.objects.all().filter(Q(title__icontains=search)).order_by("-{}".format(final_sort[0]))[
                 final_range[0] : final_range[1]
             ]
         else:
-            posts = Post.objects.all().order_by(final_sort[0])[
-                final_range[0] : final_range[1]
-            ]
+            posts = (
+                Post.objects.all()
+                .filter(Q(title__icontains=search))
+                .order_by(final_sort[0])[final_range[0] : final_range[1]]
+            )
         serializer = PostSerializer(posts, many=True)
         response = Response(serializer.data)
         response["Content-Range"] = f"posts 0-{len(posts)-1}/{len(posts)}"
@@ -54,8 +73,6 @@ def get_post(post_id):
     post = Post.objects.get(id=post_id)
     serializer = PostSerializer(post)
     return serializer.data
-
-
 
 
 @api_view(["DELETE", "GET", "PUT"])
