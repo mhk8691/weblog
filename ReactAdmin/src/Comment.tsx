@@ -43,7 +43,7 @@ export const CommentList = () => (
       <NumberField source="id" />
       <NumberField source="author" />
       <TextField source="content" />
-      <NumberField label="post" />
+      <NumberField source="post" />
       <EditButton label="edit" />
       <ShowButton label="show" />
       <DeleteButton label="delete" />

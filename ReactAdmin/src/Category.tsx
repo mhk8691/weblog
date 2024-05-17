@@ -41,7 +41,7 @@ export const CategoryList = () => (
     <ListToolbar />
     <Datagrid rowClick="edit">
       <NumberField source="id" />
-      <TextField label="name" />
+      <TextField label="name" source="name" />
       <EditButton label="edit" />
       <ShowButton label="show" />
       <DeleteButton label="delete" />

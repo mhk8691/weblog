@@ -10,42 +10,34 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 
-@api_view(["GET"])
-def list_category(request):
+@api_view(["GET", "POST"])
+def manage_category(request):
     if request.method == "GET":
-        range = request.GET["range"]
-        sort = request.GET["sort"]
-        final_range = json.loads(range)
-        final_sort = json.loads(sort)
-        if final_sort[1] == "DESC":
-            category = Category.objects.all().order_by("-{}".format(final_sort[0]))[
-                final_range[0] : final_range[1]
+        range = json.loads(request.GET["range"])
+        sort = json.loads(request.GET["sort"])
+        if sort[1] == "DESC":
+            category = Category.objects.all().order_by("-{}".format(sort[0]))[
+                range[0] : range[1]
             ]
         else:
-            category = Category.objects.all().order_by(final_sort[0])[
-                final_range[0] : final_range[1]
-            ]
+            category = Category.objects.all().order_by(sort[0])[range[0] : range[1]]
         serializer = CategorySerializer(category, many=True)
         response = Response(serializer.data)
         response["Content-Range"] = f"category 0-{len(category)-1}/{len(category)}"
         response["Access-Control-Expose-Headers"] = "Content-Range"
         return response
+    elif request.method == "POST":
+        json_data = json.loads(request.body)
+        name = json_data.get("name")
+
+        category = Category.objects.create(name=name)
+        return Response(get_category(category_id=category.id))
 
 
 def get_category(category_id):
     category = Category.objects.get(id=category_id)
     serializer = CategorySerializer(category)
     return serializer.data
-
-
-@api_view(["POST"])
-def add_category(request):
-    if request.method == "POST":
-        json_data = json.loads(request.body)
-        name = json_data.get("name")
-
-        category = Category.objects.create(name=name)
-        return Response(get_category(category_id=category.id))
 
 
 @api_view(["DELETE", "GET", "PUT"])

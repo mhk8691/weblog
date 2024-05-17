@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("comment/", views.list_comment, name="AllComment"),
-    path("comment", views.add_comment, name="CommentCreate"),
+    path("comment", views.manage_comment, name="manage_comment"),
     path("comment/<int:comment_id>", views.crud, name="crud"),
 ]

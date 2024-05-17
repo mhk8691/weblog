@@ -10,43 +10,24 @@ from Categories.models import Category
 from User.models import Comment
 
 
-@api_view(["GET"])
-def list_comment(request):
-    # if request.method == "GET":
-    #     comment = Comment.objects.all()
-    #     serialize = CommentSerializer(comment, many=True)
-    #     response = serialize.data
-    #     # response.headers["Access-Control-Expose-Headers"] = "Content-Range"
-    #     # response.headers["Content-Range"] = len(Comment)
-    #     return Response(response)
-    range = request.GET["range"]
-    sort = request.GET["sort"]
-    final_range = json.loads(range)
-    final_sort = json.loads(sort)
-    if final_sort[1] == "DESC":
-        comments = Comment.objects.all().order_by("-{}".format(final_sort[0]))[
-            final_range[0] : final_range[1]
-        ]
-    else:
-        comments = Comment.objects.all().order_by(final_sort[0])[
-            final_range[0] : final_range[1]
-        ]
-    serializer = CommentSerializer(comments, many=True)
-    response = Response(serializer.data)
-    response["Content-Range"] = f"comments 0-{len(comments)-1}/{len(comments)}"
-    response["Access-Control-Expose-Headers"] = "Content-Range"
-    return response
+@api_view(["GET", "POST"])
+def manage_comment(request):
+    if request.method == "GET":
+        range = json.loads(request.GET["range"])
+        sort = json.loads(request.GET["sort"])
 
-
-def get_comment(comment_id):
-    comment = Comment.objects.get(id=comment_id)
-    serializer = CommentSerializer(comment)
-    return serializer.data
-
-
-@api_view(["POST"])
-def add_comment(request):
-    if request.method == "POST":
+        if sort[1] == "DESC":
+            comments = Comment.objects.all().order_by("-{}".format(sort[0]))[
+                range[0] : range[1]
+            ]
+        else:
+            comments = Comment.objects.all().order_by(sort[0])[range[0] : range[1]]
+        serializer = CommentSerializer(comments, many=True)
+        response = Response(serializer.data)
+        response["Content-Range"] = f"comments 0-{len(comments)-1}/{len(comments)}"
+        response["Access-Control-Expose-Headers"] = "Content-Range"
+        return response
+    elif request.method == "POST":
         json_data = json.loads(request.body)
         author = json_data.get("author")
         comment = json_data.get("comment")
@@ -61,6 +42,12 @@ def add_comment(request):
         final_comment = get_comment(comment.pk)
         print(final_comment)
         return Response(final_comment)
+
+
+def get_comment(comment_id):
+    comment = Comment.objects.get(id=comment_id)
+    serializer = CommentSerializer(comment)
+    return serializer.data
 
 
 @api_view(["DELETE", "GET", "PUT"])

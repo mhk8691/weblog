@@ -13,3 +13,4 @@ class CommentSerializer(serializers.ModelSerializer):
         )
 
     author = serializers.CharField(source="author.username", read_only=True)
+    post = serializers.CharField(source="post.title", read_only=True)

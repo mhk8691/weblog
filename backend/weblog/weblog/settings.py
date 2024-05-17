@@ -52,24 +52,18 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.common.CommonMiddleware",
 ]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # آدرس React Admin
 ]
-# REST_FRAMEWORK = {
-#     "DEFAULT_PERMISSION_CLASSES": [
-#         "rest_framework.permissions.AllowAny",
-#     ]
-# }
-
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True  # اگر نیاز به ارسال کوکی یا اعتبارسنجی دارید
 
@@ -82,6 +76,7 @@ CORS_ALLOW_METHODS = [
     "PUT",
 ]
 
+
 CORS_ALLOW_HEADERS = [
     "accept",
     "accept-encoding",
@@ -92,11 +87,14 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
+    "range",
 ]
-
+CORS_EXPOSE_HEADERS = [
+    "Content-Range",
+]
+APPEND_SLASH = True
 
 ROOT_URLCONF = "weblog.urls"
-CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {

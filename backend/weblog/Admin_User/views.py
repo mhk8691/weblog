@@ -6,57 +6,47 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
 
 
-@api_view(["GET"])
-def list_user(request):
-    # if request.method == "GET":
-    #     Users = User.objects.all()
-    #     serialize = UserSerializer(Users, many=True)
-    #     range = request.GET.get("range")
-    #     sort = request.GET.get("sort")
-    #     print(range)
-    #     print(sort)
-    #     response = serialize.data
-    #     response.headers["Access-Control-Expose-Headers"] = "Content-Range"
-    #     response.headers["Content-Range"] = len(Users)
+@api_view(["GET", "POST"])
+def manage_user(request):
+    if request.method == "GET":
+        range = json.loads(request.GET["range"])
+        sort = json.loads(request.GET["sort"])
+        filter = json.loads(request.GET["filter"])
+        search = ""
+        print(filter)
+        if sort[1] == "DESC":
+            users = User.objects.all().order_by("-{}".format(sort[0]))[
+                range[0] : range[1] + 1
+            ]
+        else:
+            users = (
+                User.objects.all()
+                # .filter((Q(username__icontains=filter[1])))
+                .order_by(sort[0])[range[0] : range[1] + 1]
+            )
+        serializer = UserSerializer(users, many=True)
+        response = Response(serializer.data)
+        response["Content-Range"] = f"users 0-{len(users)-1}/{len(users)}"
+        response["Access-Control-Expose-Headers"] = "Content-Range"
+        return response
+    elif request.method == "POST":
+        json_data = json.loads(request.body)
+        username = json_data.get("username")
+        password = json_data.get("password")
+        email = json_data.get("email")
 
-    #     return Response(response)
-    range = request.GET["range"]
-    sort = request.GET["sort"]
-    final_range = json.loads(range)
-    final_sort = json.loads(sort)
-    if final_sort[1] == "DESC":
-        users = User.objects.all().order_by("-{}".format(final_sort[0]))[
-            final_range[0] : final_range[1]
-        ]
-    else:
-        users = User.objects.all().order_by(final_sort[0])[
-            final_range[0] : final_range[1]
-        ]
-    serializer = UserSerializer(users, many=True)
-    response = Response(serializer.data)
-    response["Content-Range"] = f"users 0-{len(users)-1}/{len(users)}"
-    response["Access-Control-Expose-Headers"] = "Content-Range"
-    return response
+        user = User.objects.create(username=username, email=email, password=password)
+        # serializer = UserSerializer()
+        return Response(get_user(user_id=user.id))
 
 
 def get_user(user_id):
     user = User.objects.get(id=user_id)
     serializer = UserSerializer(user)
     return serializer.data
-
-
-@api_view(["POST"])
-def add_user(request):
-    if request.method == "POST":
-        json_data = json.loads(request.body)
-        username = json_data.get("username")
-        password = json_data.get("password")
-        email = json_data.get("email")
-        user = User.objects.create(username=username, email=email, password=password)
-        # serializer = UserSerializer()
-        return Response(get_user(user_id=user.id))
 
 
 @api_view(["DELETE", "GET", "PUT"])

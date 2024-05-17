@@ -15,3 +15,4 @@ class PostSerializer(serializers.ModelSerializer):
         )
 
     author = serializers.CharField(source="author.username", read_only=True)
+    categories = serializers.CharField(source="categories.name", read_only=True)

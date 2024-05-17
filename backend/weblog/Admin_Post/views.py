@@ -10,36 +10,27 @@ from User.models import User
 from Categories.models import Category
 
 
-@api_view(["GET"])
-def list_post(request):
-    range = request.GET["range"]
-    sort = request.GET["sort"]
-    final_range = json.loads(range)
-    final_sort = json.loads(sort)
-    if final_sort[1] == "DESC":
-        posts = Post.objects.all().order_by("-{}".format(final_sort[0]))[
-            final_range[0] : final_range[1]
-        ]
-    else:
-        posts = Post.objects.all().order_by(final_sort[0])[
-            final_range[0] : final_range[1]
-        ]
-    serializer = PostSerializer(posts, many=True)
-    response = Response(serializer.data)
-    response["Content-Range"] = f"posts 0-{len(posts)-1}/{len(posts)}"
-    response["Access-Control-Expose-Headers"] = "Content-Range"
-    return response
-
-
-def get_post(post_id):
-    post = Post.objects.get(id=post_id)
-    serializer = PostSerializer(post)
-    return serializer.data
-
-
-@api_view(["POST"])
-def add_post(request):
-    if request.method == "POST":
+@api_view(["GET", "POST"])
+def manage_post(request):
+    if request.method == "GET":
+        range = request.GET["range"]
+        sort = request.GET["sort"]
+        final_range = json.loads(range)
+        final_sort = json.loads(sort)
+        if final_sort[1] == "DESC":
+            posts = Post.objects.all().order_by("-{}".format(final_sort[0]))[
+                final_range[0] : final_range[1]
+            ]
+        else:
+            posts = Post.objects.all().order_by(final_sort[0])[
+                final_range[0] : final_range[1]
+            ]
+        serializer = PostSerializer(posts, many=True)
+        response = Response(serializer.data)
+        response["Content-Range"] = f"posts 0-{len(posts)-1}/{len(posts)}"
+        response["Access-Control-Expose-Headers"] = "Content-Range"
+        return response
+    elif request.method == "POST":
         json_data = json.loads(request.body)
         author = json_data.get("author")
         title = json_data.get("title")
@@ -57,6 +48,14 @@ def add_post(request):
         )
         # serializer = PostSerializer()
         return Response(get_post(post_id=post.id))
+
+
+def get_post(post_id):
+    post = Post.objects.get(id=post_id)
+    serializer = PostSerializer(post)
+    return serializer.data
+
+
 
 
 @api_view(["DELETE", "GET", "PUT"])

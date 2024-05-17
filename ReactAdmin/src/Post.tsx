@@ -43,10 +43,10 @@ export const PostsList = () => (
       <NumberField source="id" />
       <NumberField source="author" />
       <TextField source="title" />
+      {/* <TextField source="image" /> */}
+      <TextField source="is_draft" label="Draft" />
+      <TextField label="Category" source="categories" />
       <TextField source="content" />
-      <TextField source="image" />
-      <TextField source="is_draft" />
-      <TextField label="categories" />
       <EditButton label="edit" />
       <ShowButton label="show" />
       <DeleteButton label="delete" />

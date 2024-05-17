@@ -32,7 +32,7 @@ export const App = () => (
     // authProvider={authProvider}
     layout={MyLayout}
     darkTheme={{ palette: { mode: "dark" } }}
-  
+
     // darkTheme={darkTheme}
   >
     <Resource
