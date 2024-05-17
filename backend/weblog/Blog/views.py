@@ -106,7 +106,7 @@ def update_post(request, post_id):
         form = UpdatePost(request.POST, request.FILES, instance=update)
         if form.is_valid():
             form.save()
-            return redirect("profile")
+            return redirect("http://127.0.0.1:8000/profile/show/#t2")
     else:
         form = UpdatePost(instance=update)
         return render(request, "UpdatePost.html", {"form": form})

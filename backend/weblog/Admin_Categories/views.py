@@ -13,12 +13,23 @@ from rest_framework.response import Response
 @api_view(["GET"])
 def list_category(request):
     if request.method == "GET":
-        category = Category.objects.all()
-        serialize = CategorySerializer(category, many=True)
-        response = serialize.data
-        response.headers["Access-Control-Expose-Headers"] = "Content-Range"
-        response.headers["Content-Range"] = len(category)
-        return Response(response)
+        range = request.GET["range"]
+        sort = request.GET["sort"]
+        final_range = json.loads(range)
+        final_sort = json.loads(sort)
+        if final_sort[1] == "DESC":
+            category = Category.objects.all().order_by("-{}".format(final_sort[0]))[
+                final_range[0] : final_range[1]
+            ]
+        else:
+            category = Category.objects.all().order_by(final_sort[0])[
+                final_range[0] : final_range[1]
+            ]
+        serializer = CategorySerializer(category, many=True)
+        response = Response(serializer.data)
+        response["Content-Range"] = f"category 0-{len(category)-1}/{len(category)}"
+        response["Access-Control-Expose-Headers"] = "Content-Range"
+        return response
 
 
 def get_category(category_id):

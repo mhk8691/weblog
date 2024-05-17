@@ -3,7 +3,7 @@
 <style>
   img {
     width: 500px;
-    height: 300px;
+    height: 700px;
     object-fit: cover;
   }
   .content {
@@ -101,18 +101,20 @@
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">
-               <form action="" method="POST">
+              <div class="modal-body d-flex justify-content-center">
+               <form action="" method="POST" >
                  {% csrf_token %}
                 {{form.as_p}}
-                <button
+                <div class="d-flex justify-content-center ">
+                  <button
                   type="button"
-                  class="btn btn-secondary "
+                  class="btn btn-danger   w-50"
                   data-bs-dismiss="modal"
                 >
                   Close
                 </button>
-                <button type="submit" class="btn btn-primary" >Send</button>
+                <button type="submit" class="btn btn-success ms-3 w-50" >Send</button>
+                </div>
                </form>
 
               </div>

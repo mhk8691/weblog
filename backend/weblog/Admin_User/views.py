@@ -10,18 +10,35 @@ from django.http import HttpResponse, JsonResponse
 
 @api_view(["GET"])
 def list_user(request):
-    if request.method == "GET":
-        Users = User.objects.all()
-        serialize = UserSerializer(Users, many=True)
-        range = request.GET.get("range")
-        sort = request.GET.get("sort")
-        print(range)
-        print(sort)
-        response = serialize.data
-        response.headers["Access-Control-Expose-Headers"] = "Content-Range"
-        response.headers["Content-Range"] = len(Users)
+    # if request.method == "GET":
+    #     Users = User.objects.all()
+    #     serialize = UserSerializer(Users, many=True)
+    #     range = request.GET.get("range")
+    #     sort = request.GET.get("sort")
+    #     print(range)
+    #     print(sort)
+    #     response = serialize.data
+    #     response.headers["Access-Control-Expose-Headers"] = "Content-Range"
+    #     response.headers["Content-Range"] = len(Users)
 
-        return Response(response)
+    #     return Response(response)
+    range = request.GET["range"]
+    sort = request.GET["sort"]
+    final_range = json.loads(range)
+    final_sort = json.loads(sort)
+    if final_sort[1] == "DESC":
+        users = User.objects.all().order_by("-{}".format(final_sort[0]))[
+            final_range[0] : final_range[1]
+        ]
+    else:
+        users = User.objects.all().order_by(final_sort[0])[
+            final_range[0] : final_range[1]
+        ]
+    serializer = UserSerializer(users, many=True)
+    response = Response(serializer.data)
+    response["Content-Range"] = f"users 0-{len(users)-1}/{len(users)}"
+    response["Access-Control-Expose-Headers"] = "Content-Range"
+    return response
 
 
 def get_user(user_id):

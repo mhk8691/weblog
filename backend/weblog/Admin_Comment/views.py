@@ -12,13 +12,30 @@ from User.models import Comment
 
 @api_view(["GET"])
 def list_comment(request):
-    if request.method == "GET":
-        comment = Comment.objects.all()
-        serialize = CommentSerializer(comment, many=True)
-        response = serialize.data
-        # response.headers["Access-Control-Expose-Headers"] = "Content-Range"
-        # response.headers["Content-Range"] = len(Comment)
-        return Response(response)
+    # if request.method == "GET":
+    #     comment = Comment.objects.all()
+    #     serialize = CommentSerializer(comment, many=True)
+    #     response = serialize.data
+    #     # response.headers["Access-Control-Expose-Headers"] = "Content-Range"
+    #     # response.headers["Content-Range"] = len(Comment)
+    #     return Response(response)
+    range = request.GET["range"]
+    sort = request.GET["sort"]
+    final_range = json.loads(range)
+    final_sort = json.loads(sort)
+    if final_sort[1] == "DESC":
+        comments = Comment.objects.all().order_by("-{}".format(final_sort[0]))[
+            final_range[0] : final_range[1]
+        ]
+    else:
+        comments = Comment.objects.all().order_by(final_sort[0])[
+            final_range[0] : final_range[1]
+        ]
+    serializer = CommentSerializer(comments, many=True)
+    response = Response(serializer.data)
+    response["Content-Range"] = f"comments 0-{len(comments)-1}/{len(comments)}"
+    response["Access-Control-Expose-Headers"] = "Content-Range"
+    return response
 
 
 def get_comment(comment_id):
