@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "eaf6fdc7-ba1f-4a42-a327-e59dab69eb69",
+		"_postman_id": "274c4124-166d-45a8-a54d-ab798f65eb07",
 		"name": "Weblog",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33430764"
@@ -15,16 +15,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/category/?range=%5B0%2C9%5D&sort=%5B%22id%22%2C%22ASC%22%5D",
+							"raw": "localhost:8000/category?filter=%7B%7D&range=%5B0%2C9%5D&sort=%5B%22id%22%2C%22ASC%22%5D",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"category",
-								""
+								"category"
 							],
 							"query": [
+								{
+									"key": "filter",
+									"value": "%7B%7D"
+								},
 								{
 									"key": "range",
 									"value": "%5B0%2C9%5D"
@@ -142,19 +145,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/user/?range=%5B0%2C9%5D&sort=%5B%22id%22%2C%22ASC%22%5D",
+							"raw": "localhost:8000/user?filter=%7B%7D&range=%5B0%2C49%5D&sort=%5B%22id%22%2C%22ASC%22%5D",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"user",
-								""
+								"user"
 							],
 							"query": [
 								{
+									"key": "filter",
+									"value": "%7B%7D"
+								},
+								{
 									"key": "range",
-									"value": "%5B0%2C9%5D"
+									"value": "%5B0%2C49%5D"
 								},
 								{
 									"key": "sort",
@@ -177,14 +183,14 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:8000/user/1",
+							"raw": "localhost:8000/user/49",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
 								"user",
-								"1"
+								"49"
 							],
 							"query": [
 								{
@@ -204,7 +210,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"username\": \"test37\",\r\n        \"email\": \"test35@gmail.com\",\r\n        \"password\": \"123\"\r\n}",
+							"raw": "{\r\n        \"username\": \"test38\",\r\n        \"email\": \"test35@gmail.com\",\r\n        \"password\": \"123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -264,14 +270,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:8000/user/43",
+							"raw": "localhost:8000/user/49",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
 								"user",
-								"43"
+								"49"
 							]
 						}
 					},
@@ -288,20 +294,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/post/?range=%5B0%2C9%5D&sort=%5B%22id%22%2C%22ASC%22%5D",
-							"protocol": "http",
+							"raw": "localhost:8000/post?filter=%7B%7D&range=%5B0%2C49%5D&sort=%5B%22id%22%2C%22ASC%22%5D",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"post",
-								""
+								"post"
 							],
 							"query": [
 								{
+									"key": "filter",
+									"value": "%7B%7D"
+								},
+								{
 									"key": "range",
-									"value": "%5B0%2C9%5D"
+									"value": "%5B0%2C49%5D"
 								},
 								{
 									"key": "sort",
@@ -420,17 +428,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/comment/?range=%5B0%2C9%5D&sort=%5B%22id%22%2C%22ASC%22%5D",
+							"raw": "http://localhost:8000/comment?filter=%7B%7D&range=%5B0%2C9%5D&sort=%5B%22id%22%2C%22ASC%22%5D",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"comment",
-								""
+								"comment"
 							],
 							"query": [
+								{
+									"key": "filter",
+									"value": "%7B%7D"
+								},
 								{
 									"key": "range",
 									"value": "%5B0%2C9%5D"
